@@ -10,6 +10,7 @@ var cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productsRouter = require('./routes/products')
 const passport = require('./passport/passport')
 
 
@@ -28,6 +29,8 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+
 
 
 
