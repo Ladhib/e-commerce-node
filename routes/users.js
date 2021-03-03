@@ -60,7 +60,7 @@ router.post('/login', async function  (req, res) {
            res.json({message:'login succesfully', token :createdToken})
           }
           else {
-            return res.status(401).json({
+            return res.json({
               message: "Auth failed"
             });
           }
