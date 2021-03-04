@@ -6,7 +6,7 @@ const path = require('path');
 const ejs = require('ejs');
 
 
-router.post('/confirmation/:id', function(req , res, next){
+router.get('/confirmation/:id', function(req , res, next){
   
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -40,7 +40,7 @@ userModel.findById(req.params.id).then(user=>{
 })
 
 
-router.post('/register/:id', function(req , res, next){
+router.get('/register/:id', function(req , res, next){
   
     const transporter = nodemailer.createTransport({
         service: 'gmail',
