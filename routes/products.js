@@ -14,15 +14,11 @@ var storage = multer.diskStorage({
 const upload = multer({ storage:storage })
 
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 
 
 router.post('/addProduct', upload.single('image') ,(req, res)=> {
-    
+
   var image=req.file.path
 console.log(image);
     const product = new productModel({
@@ -33,7 +29,7 @@ console.log(image);
           topProduct:req.body.topProduct,
           description:req.body.description,
           price:req.body.price,
-          sizesQuantity:req.body.sizesQuantity,
+          sizesQuantity:JSON.parse(req.body.sizesQuantity),
   });
   product.save().then(createdProduct => {
       res.status(201).json({
@@ -50,4 +46,17 @@ console.log(image);
   });
 
 });
+
+
+
+/* GET users listing. */
+router.get('/getAllProducts', function(req, res, next) {
+  productModel.find().then(allProducts=>{
+    res.json(allProducts)
+  })
+
+});
+
+
+
 module.exports = router
