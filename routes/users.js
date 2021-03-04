@@ -3,15 +3,14 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
-
-var userModel = require("../models/userModel");
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
-
-
 var bcrypt = require('bcrypt');
-var userModel = require('../models/userModel')
+var userModel = require('../models/userModel');
+// const { router } = require('../app');
+var contactModel = require('../models/conatctModel');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -103,6 +102,25 @@ router.post('/login', async function  (req, res) {
       )};
  //});
  });
+
+ //Contact
+ router.post('/contact',  (req, res)=> {
+contactModel.create({
+  name : req.body.name,
+  email:req.body.email,
+  phone:req.body.phone,
+  message:req.body.message
+
+}).then(contactAdmin=>{
+  res.json({
+    message:"Done",
+    
+  })
+})
+
+ })
+
+
 
 
 
