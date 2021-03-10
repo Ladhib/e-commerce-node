@@ -7,5 +7,6 @@ var mongoose = require('mongoose')
     email : {type : String},
     phone :{type:Number},
     message : {type : String},
+    status : false
    })
  module.exports=mongoose.model("message", contactModel)

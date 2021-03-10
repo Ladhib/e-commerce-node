@@ -10,6 +10,8 @@ var bcrypt = require('bcrypt');
 var userModel = require('../models/userModel');
 // const { router } = require('../app');
 var contactModel = require('../models/conatctModel');
+const { route } = require('./products');
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -109,7 +111,8 @@ contactModel.create({
   name : req.body.name,
   email:req.body.email,
   phone:req.body.phone,
-  message:req.body.message
+  message:req.body.message,
+  status : false
 
 }).then(contactAdmin=>{
   res.json({
@@ -120,6 +123,17 @@ contactModel.create({
 
  })
 
+ router.get('/getAllContacts', function(req, res, next){
+ contactModel.find().then(allContacts=>{
+  res.json(allContacts)
+}).catch(err=>res.send(err))
+})
+
+router.get("/updateById/:id", function(req, res, next){
+  contactModel.findByIdAndUpdate(req.params.id , {status: true},{new : true}).then(x=>{
+  res.json(x)
+}).catch(err=>res.send(err))
+})
 
 
 
