@@ -58,5 +58,34 @@ router.get('/getAllProducts', function(req, res, next) {
 });
 
 
+// get product by gender
+router.get('/getMensProduct' , function (req, res, next) {
+  productModel.find({gender:"male"}).then(product=>{
+    res.json(product)
+  }) 
+
+})
+router.get('/getWomensProduct' , function (req, res, next) {
+  productModel.find({gender:"female"}).then(product=>{
+    res.json(product)
+  })
+
+})
+
+
+router.get('/getProductsByGender/:gender' , function (req, res, next) {
+  productModel.find({gender:req.params.gender}).then(product=>{
+    res.json(product)
+  })
+
+})
+
+router.get('/getProductsByGenderAndCategory/:gender/:categorie' , function (req, res, next) {
+  productModel.find({gender:req.params.gender,categorie:req.params.categorie}).then(product=>{
+    res.json(product)
+  })
+
+})
+
 
 module.exports = router

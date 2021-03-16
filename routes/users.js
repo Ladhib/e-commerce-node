@@ -129,7 +129,7 @@ contactModel.create({
 }).catch(err=>res.send(err))
 })
 
-router.get("/updateById/:id", function(req, res, next){
+router.get("/updateStatusById/:id", function(req, res, next){
   contactModel.findByIdAndUpdate(req.params.id , {status: true},{new : true}).then(x=>{
   res.json(x)
 }).catch(err=>res.send(err))
