@@ -61,13 +61,37 @@ router.delete('/deleteProduct/:id', (req, res, next) => {
   productModel.findByIdAndRemove(req.params.id).then(x => {
     res.json({
       message: "deleted",
-
     })
-    // res.json(user)
+  });
+});
+// get product by gender
+router.get('/getMensProduct' , function (req, res, next) {
+  productModel.find({gender:"male"}).then(product=>{
+    res.json(product)
+  }) 
+
+})
+router.get('/getWomensProduct' , function (req, res, next) {
+  productModel.find({gender:"female"}).then(product=>{
+    res.json(product)
   })
 
 })
 
+
+router.get('/getProductsByGender/:gender' , function (req, res, next) {
+  productModel.find({gender:req.params.gender}).then(product=>{
+    res.json(product)
+  })
+
+})
+
+router.get('/getProductsByGenderAndCategory/:gender/:categorie' , function (req, res, next) {
+  productModel.find({gender:req.params.gender,categorie:req.params.categorie}).then(product=>{
+    res.json(product)
+  })
+
+})
 
 router.get('/productById/:id',(req,res)=>{
 productModel.findById(req.params.id).then(response=>{
@@ -111,5 +135,6 @@ router.get('/getQuantityByProduct/:productId', function(req, res, next) {
     console.log(err);
   })
 });
+
 
 module.exports = router
