@@ -12,6 +12,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products')
 const passport = require('./passport/passport')
+var emailRouter = require('./routes/email');
+
 
 
 var app = express();
@@ -30,6 +32,9 @@ app.use('/uploadedImages',express.static('uploadedImages'))
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
+app.use('/email', emailRouter);
+
+
 
 
 

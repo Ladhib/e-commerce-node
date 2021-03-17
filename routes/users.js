@@ -2,9 +2,15 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-
+const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
+const ejs = require('ejs');
 var bcrypt = require('bcrypt');
-var userModel = require('../models/userModel')
+var userModel = require('../models/userModel');
+// const { router } = require('../app');
+var contactModel = require('../models/conatctModel');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -22,20 +28,47 @@ router.post('/userCreate',  (req, res)=> {
       password:hash
   });
   user.save().then(createdUser => {
-      res.status(201).json({
-          message: "user added successfully",
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user:"mahmoudfadhel2@gmail.com",
+        pass:"moez20082009" // naturally, replace both with your real credentials or an application-specific password
+      }
+    });
+    const template = fs.readFileSync(path.resolve('./common/mail_templates','register_mail.html'), {encoding: 'utf-8'})
+    const html = ejs.render(template, {
+      name: createdUser.name
+    }) 
+
+
+       mailOptions = {
+          from: 'mahmoudfadhel2@gmail.com',
+          to: createdUser.email,
+          subject: 'Register',
+          html: html
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+           res.json({message:'error'})
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+
+  res.json({message:"sent"})
+})
       
-      });
     })
-    .catch(error => {
-      console.log(error)
-      res.status(500).json({
-          message: "failed to create a user!"+error
+  //   .catch(error => {
+  //     console.log(error)
+  //     res.status(500).json({
+  //         message: "failed to create a user!"+error
           
-      });
+  //     });
+  // });
   });
-  });
-});
+
 
 //login//
 
@@ -69,6 +102,25 @@ router.post('/login', async function  (req, res) {
       )};
  //});
  });
+
+ //Contact
+ router.post('/contact',  (req, res)=> {
+contactModel.create({
+  name : req.body.name,
+  email:req.body.email,
+  phone:req.body.phone,
+  message:req.body.message
+
+}).then(contactAdmin=>{
+  res.json({
+    message:"Done",
+    
+  })
+})
+
+ })
+
+
 
 
 
