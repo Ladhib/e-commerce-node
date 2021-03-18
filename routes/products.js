@@ -93,6 +93,13 @@ router.get('/getProductsByGenderAndCategory/:gender/:categorie' , function (req,
 
 })
 
+
+router.get('/getProductsCategory/:categorie' , function (req, res, next) {
+  productModel.find({categorie:req.params.categorie}).then(product=>{
+    res.json(product)
+  })
+})
+
 router.get('/productById/:id',(req,res)=>{
 productModel.findById(req.params.id).then(response=>{
   res.json(response)
