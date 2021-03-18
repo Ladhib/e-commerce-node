@@ -29,6 +29,8 @@ console.log(image);
           topProduct:req.body.topProduct,
           description:req.body.description,
           price:req.body.price,
+          discount:req.body.discount,
+
           sizesQuantity:JSON.parse(req.body.sizesQuantity),
   });
   product.save().then(createdProduct => {
@@ -50,13 +52,17 @@ console.log(image);
 
 
 /* GET users listing. */
-router.get('/getAllProducts', function(req, res, next) {
+router.get("/getAllProducts", function(req, res, next) {
   productModel.find().then(allProducts=>{
     res.json(allProducts)
   })
 
 });
 
-
+router.get('/getProduct/:id' , (req,res,next)=>{
+  productModel.findById(req.params.id).then(x=>{
+    res.json(x)
+  })
+})
 
 module.exports = router
