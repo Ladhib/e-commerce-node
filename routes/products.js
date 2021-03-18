@@ -135,6 +135,13 @@ router.get('/getQuantityByProduct/:productId', function(req, res, next) {
     console.log(err);
   })
 });
+router.get('/getTopProducts', function(req, res, next) {
+  productModel.find({topProduct:"true"}).then(topProduct=>{
+    res.json(topProduct)
+  })
+
+});
+  
 
 
 module.exports = router
