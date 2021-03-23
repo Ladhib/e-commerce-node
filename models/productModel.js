@@ -11,8 +11,13 @@ var mongoose = require('mongoose')
     price : {type : Number},
     imageProduct: {type : String},
     sizesQuantity : [],
+<<<<<<< HEAD
     discount : {type : Number,default:0}
 
+=======
+    discount : {type : Number},
+    selectedSize: {type : Number}
+>>>>>>> 5adbc6b3ae37a0050a33aea5576e90a12f69700d
 
 
    })
