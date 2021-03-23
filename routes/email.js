@@ -1,12 +1,13 @@
 const nodemailer = require('nodemailer');
 const router = require('./users');
 var userModel = require("../models/userModel");
+const passport = require('passport');
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
 
 
-router.get('/confirmation/:id', function(req , res, next){
+router.get('/confirmation/:id',passport.authenticate('bearer', { session: false }), function(req , res, next){
   
     const transporter = nodemailer.createTransport({
         service: 'gmail',

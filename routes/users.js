@@ -106,7 +106,7 @@ router.post('/login', async function  (req, res) {
  });
 
  //Contact
- router.post('/contact',  (req, res)=> {
+ router.post('/contact', (req, res)=> {
 contactModel.create({
   name : req.body.name,
   email:req.body.email,
@@ -123,19 +123,21 @@ contactModel.create({
 
  })
 
- router.get('/getAllContacts', function(req, res, next){
+ router.get('/getAllContacts',passport.authenticate('bearer', { session: false }), function(req, res, next){
  contactModel.find().then(allContacts=>{
   res.json(allContacts)
 }).catch(err=>res.send(err))
 })
 
-router.get("/updateStatusById/:id", function(req, res, next){
+router.get("/updateStatusById/:id",passport.authenticate('bearer', { session: false }), function(req, res, next){
   contactModel.findByIdAndUpdate(req.params.id , {status: true},{new : true}).then(x=>{
   res.json(x)
 }).catch(err=>res.send(err))
 })
 
+// router.get("/getUserById/:id", function (req,res,next){
 
+// })
 
 
 module.exports = router;

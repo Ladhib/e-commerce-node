@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router()
 var productModel = require('../models/productModel')
-
+const passport = require('passport')
 const multer  = require('multer')
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +17,7 @@ const upload = multer({ storage:storage })
 
 
 
-router.post('/addProduct', upload.single('image') ,(req, res)=> {
+router.post('/addProduct',passport.authenticate('bearer', { session: false }), upload.single('image'),(req, res)=> {
 
   var image=req.file.path
 console.log(req.body);
@@ -52,7 +52,7 @@ console.log(req.body);
 
 
 /* GET users listing. */
-router.get("/getAllProducts", function(req, res, next) {
+router.get("/getAllProducts",  function(req, res, next) {
   productModel.find().then(allProducts=>{
     res.json(allProducts)
   })
@@ -64,7 +64,7 @@ router.get('/getProduct/:id' , (req,res,next)=>{
     res.json(x)
   })
 })
-router.delete('/deleteProduct/:id', (req, res, next) => {
+router.delete('/deleteProduct/:id',passport.authenticate('bearer', { session: false }), (req, res, next) => {
   productModel.findByIdAndRemove(req.params.id).then(x => {
     res.json({
       message: "deleted",
@@ -101,7 +101,7 @@ router.get('/getProductsByGenderAndCategory/:gender/:categorie' , function (req,
 })
 
 
-router.get('/getProductsCategory/:categorie' , function (req, res, next) {
+router.get('/getProductsCategory/:categorie' ,function (req, res, next) {
   productModel.find({categorie:req.params.categorie}).then(product=>{
     res.json(product)
   })
@@ -114,7 +114,7 @@ productModel.findById(req.params.id).then(response=>{
 
 }
 )
-router.put('/update/:id', upload.single('image'), (req, res, next) => {
+router.put('/update/:id',passport.authenticate('bearer', { session: false }), upload.single('image'), (req, res, next) => {
   console.log(req.body.sizesQuantity);
   let data = JSON.parse(req.body.sizesQuantity);
   req.body.sizesQuantity = data;
@@ -127,7 +127,7 @@ router.put('/update/:id', upload.single('image'), (req, res, next) => {
 
 
 /* GET size by product */
-router.get('/getSizeByProduct/:productId', function(req, res, next) {
+router.get('/getSizeByProduct/:productId',passport.authenticate('bearer', { session: false }), function(req, res, next) {
   var sizes = []
   productModel.findById(req.params.productId).then(product=>{
    product.sizesQuantity.forEach(element => {
@@ -138,7 +138,9 @@ router.get('/getSizeByProduct/:productId', function(req, res, next) {
     console.log(err);
   })
 });
-router.get('/getQuantityByProduct/:productId', function(req, res, next) {
+
+
+router.get('/getQuantityByProduct/:productId',passport.authenticate('bearer', { session: false }), function(req, res, next) {
   var quantity = []
   productModel.findById(req.params.productId).then(product=>{
    product.sizesQuantity.forEach(element => {
@@ -149,13 +151,19 @@ router.get('/getQuantityByProduct/:productId', function(req, res, next) {
     console.log(err);
   })
 });
+// get top products:
 router.get('/getTopProducts', function(req, res, next) {
-  productModel.find({topProduct:"true"}).then(topProduct=>{
+  productModel.find({topProduct:true}).then(topProduct=>{
     res.json(topProduct)
   })
 
 });
-  
+  // get On sale products:
+router.get('/getOnSaleProducts',function(req, res, next) {
+  productModel.find({"discount":{"$gt":"0"}}).then(onSaleProduct=>{
+    res.json(onSaleProduct)
+  })
+});
 
 
 module.exports = router

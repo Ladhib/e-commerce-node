@@ -6,12 +6,12 @@ var mongoose = require('mongoose')
     productName: {type : String},
     gender : {type : String},
     categorie :{type:String},
-    topProduct : {},
+    topProduct : {type:Boolean},
     description : {type : String},
     price : {type : Number},
     imageProduct: {type : String},
     sizesQuantity : [],
-    discount : {type : Number}
+    discount : {type : Number,default:0}
 
 
 
