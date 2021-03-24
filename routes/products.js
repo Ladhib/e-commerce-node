@@ -94,6 +94,7 @@ router.get('/getProductsByGender/:gender' , function (req, res, next) {
 })
 
 router.get('/getProductsByGenderAndCategory/:gender/:categorie' , function (req, res, next) {
+  console.log(req.params.categorie);
   productModel.find({gender:req.params.gender,categorie:req.params.categorie}).then(product=>{
     res.json(product)
   })
