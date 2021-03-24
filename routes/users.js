@@ -27,7 +27,8 @@ router.post('/userCreate',  (req, res)=> {
     const user = new userModel({
       name : req.body.name,
       email:  req.body.email,
-      password:hash
+      password:hash,
+      role : "user"
   });
   user.save().then(createdUser => {
     const transporter = nodemailer.createTransport({
@@ -89,7 +90,8 @@ router.post('/login', async function  (req, res) {
   if (result){
   const data={
              email: user.email,
-             userId:user._id
+             userId:user._id,
+             role : user.role
            };
            const createdToken = jwt.sign(data,'secret', {expiresIn:'1h'});
            res.json({message:'login succesfully', token :createdToken})
