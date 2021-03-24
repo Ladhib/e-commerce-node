@@ -3,6 +3,7 @@ var router = express.Router()
 var productModel = require('../models/productModel')
 const passport = require('passport')
 var cmdModel = require('../models/cmd')
+const jwtConfig = require("../JWTConfig/jwtverify") 
 
 const multer  = require('multer')
 var storage = multer.diskStorage({
@@ -19,7 +20,7 @@ const upload = multer({ storage:storage })
 
 
 
-router.post('/addProduct',passport.authenticate('bearer', { session: false }), upload.single('image'),(req, res)=> {
+router.post('/addProduct',jwtConfig.ensureToken, upload.single('image'),(req, res)=> {
 
   var image=req.file.path
 console.log(req.body);
