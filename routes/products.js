@@ -179,7 +179,7 @@ router.put('/updateAfterComfirmation/:id', upload.single('image'), (req, res, ne
 
 
 
-router.post('/postCmd',(req, res)=> {
+router.post('/postCmd', jwtConfig.ensureToken,(req, res)=> {
 
     const Cmd = new cmdModel({
       firstName: req.body.billingForm.firstName ,
