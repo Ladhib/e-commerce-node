@@ -13,6 +13,8 @@ var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products')
 const passport = require('./passport/passport')
 var emailRouter = require('./routes/email');
+var genderRouter = require('./routes/gender');
+var categorieRouter = require('./routes/categorie');
 
 
 
@@ -33,7 +35,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/email', emailRouter);
-
+app.use('/gender', genderRouter);
+app.use('/categorie', categorieRouter);
 
 
 
