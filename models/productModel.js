@@ -6,13 +6,13 @@ var mongoose = require('mongoose')
     productName: {type : String},
     gender : {type : String},
     categorie :{ type: Schema.Types.ObjectId, ref:"categorie"},
-    topProduct : {},
+    topProduct : {type:Boolean},
     description : {type : String},
     price : {type : Number},
     imageProduct: {type : String}, 
     sizesQuantity : [],
-    discount : {type : Number}
-
+    discount : {type : Number},
+    selectedSize: {type : Number}
 
 
    })
