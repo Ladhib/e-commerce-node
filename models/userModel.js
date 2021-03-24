@@ -6,7 +6,8 @@
 
     name : {type : String},
     email : {type : String},
-    password :{type : String}
+    password :{type : String},
+    role : {type : String}
 
    })
  module.exports=mongoose.model("user", userModel)

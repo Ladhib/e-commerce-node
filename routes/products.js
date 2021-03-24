@@ -66,7 +66,7 @@ router.get('/getProduct/:id' , (req,res,next)=>{
     res.json(x)
   })
 })
-router.delete('/deleteProduct/:id',passport.authenticate('bearer', { session: false }), (req, res, next) => {
+router.delete('/deleteProduct/:id',jwtConfig.ensureToken, (req, res, next) => {
   productModel.findByIdAndRemove(req.params.id).then(x => {
     res.json({
       message: "deleted",
@@ -116,7 +116,7 @@ productModel.findById(req.params.id).then(response=>{
 
 }
 )
-router.put('/update/:id',passport.authenticate('bearer', { session: false }), upload.single('image'), (req, res, next) => {
+router.put('/update/:id',jwtConfig.ensureToken, upload.single('image'), (req, res, next) => {
   console.log(req.body.sizesQuantity);
   let data = JSON.parse(req.body.sizesQuantity);
   req.body.sizesQuantity = data;
@@ -129,7 +129,7 @@ router.put('/update/:id',passport.authenticate('bearer', { session: false }), up
 
 
 /* GET size by product */
-router.get('/getSizeByProduct/:productId',passport.authenticate('bearer', { session: false }), function(req, res, next) {
+router.get('/getSizeByProduct/:productId',jwtConfig.ensureToken, function(req, res, next) {
   var sizes = []
   productModel.findById(req.params.productId).then(product=>{
    product.sizesQuantity.forEach(element => {
@@ -142,7 +142,7 @@ router.get('/getSizeByProduct/:productId',passport.authenticate('bearer', { sess
 });
 
 
-router.get('/getQuantityByProduct/:productId',passport.authenticate('bearer', { session: false }), function(req, res, next) {
+router.get('/getQuantityByProduct/:productId',jwtConfig.ensureToken, function(req, res, next) {
   var quantity = []
   productModel.findById(req.params.productId).then(product=>{
    product.sizesQuantity.forEach(element => {
