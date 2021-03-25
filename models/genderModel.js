@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 
    const genderModel = new Schema ({
 
-    gender: {type : String},
+    name: {type : String},
     categorie:[{ type: Schema.Types.ObjectId, ref:"categorie"}],
    })
  module.exports=mongoose.model("gender", genderModel)

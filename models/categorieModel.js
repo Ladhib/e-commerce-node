@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var categorieModel = new Schema({
- categorie: {type :String},
+ name: {type :String},
 
   
 });

@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
    const productModel = new Schema ({
 
     productName: {type : String},
-    gender : {type : String},
+    gender : {type: Schema.Types.ObjectId, ref:"gender"},
     categorie :{ type: Schema.Types.ObjectId, ref:"categorie"},
     topProduct : {type:Boolean},
     description : {type : String},
