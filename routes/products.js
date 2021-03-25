@@ -129,7 +129,7 @@ router.put('/update/:id',jwtConfig.ensureToken, upload.single('image'), (req, re
 
 
 /* GET size by product */
-router.get('/getSizeByProduct/:productId',jwtConfig.ensureToken, function(req, res, next) {
+router.get('/getSizeByProduct/:productId', function(req, res, next) {
   var sizes = []
   productModel.findById(req.params.productId).then(product=>{
    product.sizesQuantity.forEach(element => {
@@ -142,7 +142,7 @@ router.get('/getSizeByProduct/:productId',jwtConfig.ensureToken, function(req, r
 });
 
 
-router.get('/getQuantityByProduct/:productId',jwtConfig.ensureToken, function(req, res, next) {
+router.get('/getQuantityByProduct/:productId', function(req, res, next) {
   var quantity = []
   productModel.findById(req.params.productId).then(product=>{
    product.sizesQuantity.forEach(element => {
@@ -167,7 +167,7 @@ router.get('/getOnSaleProducts',function(req, res, next) {
   })
 });
   
-router.put('/updateAfterComfirmation/:id', upload.single('image'), (req, res, next) => {
+router.put('/updateAfterComfirmation/:id',jwtConfig.ensureToken, upload.single('image'), (req, res, next) => {
   productModel.findByIdAndUpdate(req.params.id,req.body).then(y => {
     res.json({
       message: "updated",
@@ -178,7 +178,7 @@ router.put('/updateAfterComfirmation/:id', upload.single('image'), (req, res, ne
 
 
 
-router.post('/postCmd',(req, res)=> {
+router.post('/postCmd',jwtConfig.ensureToken, (req, res)=> {
 
     const Cmd = new cmdModel({
       firstName: req.body.billingForm.firstName ,
