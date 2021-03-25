@@ -6,7 +6,7 @@ var genderModel = require('../models/genderModel')
 /* GET home page. */
 router.post('/addGender', function(req, res, next) {
 genderModel.create({
-    gender : req.body.gender,
+    name : req.body.name,
     
   }).then(gender=>{
     res.json({
@@ -35,6 +35,15 @@ genderModel.create({
           )
       })
   })
+
+  router.get('/getGenderByName/:name', (req,res,next)=>{
+    genderModel.find({name:req.params.name}).then(gender=>{
+      res.json(gender)
+    }).catch(err=>res.send(err))
+   })
+
+
+
 
 
 module.exports = router;
