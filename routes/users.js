@@ -30,37 +30,39 @@ router.post('/userCreate',  (req, res)=> {
       password:hash,
       role : "user"
   });
-  user.save().then(createdUser => {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user:"mahmoudfadhel2@gmail.com",
-        pass:"moez20082009" // naturally, replace both with your real credentials or an application-specific password
-      }
-    });
-    const template = fs.readFileSync(path.resolve('./common/mail_templates','register_mail.html'), {encoding: 'utf-8'})
-    const html = ejs.render(template, {
-      name: createdUser.name
-    }) 
+user.save().then(x=>{
+  res.json({message:"sent"})})
+//   .then(createdUser => {
+//     const transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user:"yassine.bichiou@gmail.com",
+//         pass:"" // naturally, replace both with your real credentials or an application-specific password
+//       }
+//     });
+//     const template = fs.readFileSync(path.resolve('./common/mail_templates','register_mail.html'), {encoding: 'utf-8'})
+//     const html = ejs.render(template, {
+//       name: createdUser.name
+//     }) 
 
 
-       mailOptions = {
-          from: 'mahmoudfadhel2@gmail.com',
-          to: createdUser.email,
-          subject: 'Register',
-          html: html
-        };
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-           res.json({message:'error'})
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
+//        mailOptions = {
+//           from: 'mahmoudfadhel2@gmail.com',
+//           to: createdUser.email,
+//           subject: 'Register',
+//           html: html
+//         };
+//         transporter.sendMail(mailOptions, function(error, info){
+//           if (error) {
+//             console.log(error);
+//            res.json({message:'error'})
+//           } else {
+//             console.log('Email sent: ' + info.response);
+//           }
+//         });
 
-  res.json({message:"sent"})
-})
+//   res.json({message:"sent"})
+// })
       
     })
   //   .catch(error => {
@@ -88,13 +90,14 @@ router.post('/login', async function  (req, res) {
      else{
  bcrypt.compare(req.body.password, user.password, function (err, result) {
   if (result){
+    console.log(user.role)
   const data={
              email: user.email,
              userId:user._id,
              role : user.role
            };
            const createdToken = jwt.sign(data,'secret', {expiresIn:'1h'});
-           res.json({message:'login succesfully', token :createdToken})
+           res.json({message:'login succesfully', token :createdToken })
           }
           else {
             return res.json({
@@ -140,6 +143,17 @@ router.get("/updateStatusById/:id",passport.authenticate('bearer', { session: fa
 // router.get("/getUserById/:id", function (req,res,next){
 
 // })
+
+
+
+router.get('/getUser/:id' , (req,res,next)=>{
+  userModel.findById(req.params.id).then(x=>{
+    res.json(x)
+  })
+})
+
+
+
 
 
 module.exports = router;
