@@ -112,7 +112,7 @@ router.get('/getProductsCategory/:categorie' ,function (req, res, next) {
 
 router.get('/productById/:id',(req,res)=>{
 productModel.findById(req.params.id).then(response=>{
-  res.json(response)
+  res.json({response, message:"ok"})
 })
 
 }
