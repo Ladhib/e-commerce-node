@@ -12,6 +12,7 @@ var userModel = require('../models/userModel');
 var contactModel = require('../models/conatctModel');
 const { route } = require('./products');
 
+const jwtConfig = require("../JWTConfig/jwtverify") 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -128,13 +129,13 @@ contactModel.create({
 
  })
 
- router.get('/getAllContacts',passport.authenticate('bearer', { session: false }), function(req, res, next){
+ router.get("/getAllContacts" ,jwtConfig.ensureToken, function(req, res, next){
  contactModel.find().then(allContacts=>{
   res.json(allContacts)
 }).catch(err=>res.send(err))
 })
 
-router.get("/updateStatusById/:id",passport.authenticate('bearer', { session: false }), function(req, res, next){
+router.get("/updateStatusById/:id" ,jwtConfig.ensureToken, function(req, res, next){
   contactModel.findByIdAndUpdate(req.params.id , {status: true},{new : true}).then(x=>{
   res.json(x)
 }).catch(err=>res.send(err))
@@ -146,10 +147,17 @@ router.get("/updateStatusById/:id",passport.authenticate('bearer', { session: fa
 
 
 
-router.get('/getUser/:id' , (req,res,next)=>{
+router.get('/getUser/:id' ,(req,res)=>{
   userModel.findById(req.params.id).then(x=>{
     res.json(x)
-  })
+
+})
+})
+
+router.put('/updateUser/:id' , (req,res)=>{
+ userModel.findByIdAndUpdate(req.params.id,req.body).then(x=>{
+  res.json(x)
+})
 })
 
 
