@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken")
     if(typeof bearerHeader!=="undefined"){
     const bearer=bearerHeader.split(" ");
     const bearerToken=bearer[1];
-    console.log(bearerToken);
     jwt.verify(bearerToken,'secret',function(err,data){
         if(err)
         res.status(401).json({
