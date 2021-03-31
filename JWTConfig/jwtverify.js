@@ -13,9 +13,10 @@ const jwt = require("jsonwebtoken")
         res.status(401).json({
           message:"forbidden"
         })
+        next();
         return;
 
-    // next();
+   
   
     })
     
