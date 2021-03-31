@@ -65,13 +65,13 @@ user.save().then(x=>{
 // })
       
     })
-  //   .catch(error => {
-  //     console.log(error)
-  //     res.status(500).json({
-  //         message: "failed to create a user!"+error
+    .catch(error => {
+      console.log(error)
+      res.status(500).json({
+          message: "failed to create a user!"+error
           
-  //     });
-  // });
+      });
+  });
   });
 
 

@@ -35,6 +35,7 @@ console.log(req.body);
           discount:req.body.discount,
           selectedSize : req.body.selectedSize,
           sizesQuantity:JSON.parse(req.body.sizesQuantity),
+          cartCount : 1
   });
   product.save().then(createdProduct => {
       res.status(201).json({
@@ -57,6 +58,7 @@ console.log(req.body);
 router.get("/getAllProducts", function(req, res, next) {
   productModel.find().then(allProducts=>{
     res.json(allProducts)
+    console.log(allProducts);
   })
 
 });
